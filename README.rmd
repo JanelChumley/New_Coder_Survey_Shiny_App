@@ -1,12 +1,4 @@
----
-title: "New Coder Surver: Job Role Preference Versus Age"
-author: "Janel Chumley"
-date: "10/30/2016"
-output:
-  html_notebook:
-    toc: yes
-runtime: shiny
----
+##"New Coder Surver: Job Role Preference Versus Age"
 [New Coder Dataset](https://www.kaggle.com/freecodecamp/2016-new-coder-survey-)
 
 ##**Creating the Shiny Application**
