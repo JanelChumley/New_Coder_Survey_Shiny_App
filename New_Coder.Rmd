@@ -2,8 +2,6 @@
 title: "New Coder Surver: Job Role Preference Versus Age"
 author: "Janel Chumley"
 date: "10/30/2016"
-html_notebook:
-    toc: yes
 runtime: shiny
 ---
 [New Coder Dataset](https://www.kaggle.com/freecodecamp/2016-new-coder-survey-)
@@ -17,24 +15,25 @@ require("tidyr")
 require("ggplot2")
 require("ggthemes")
 library("shiny")
+library("shinydashboard")
 ```
 
 ###**Building the User Interface**
 ```{r, eval=FALSE}
 shinyUI(fluidPage(
+tabItem(tabName = "plot",
         sliderInput("age", "Age of New Coder: ", min = 15, max = 60, value = 25),
         mainPanel(
           tabsetPanel(
-            tabPanel("Bar Graph", plotOutput("plot")), 
+            tabPanel("Dot Plot", plotOutput("plot")), 
             tabPanel("Summary", verbatimTextOutput("summary"))
-))))
-
+          )))))
 ```
 
 
 ###**Building the Server Logic**
 **Step 1** Import the csv file: 
-```{r, eval=FALSE}
+```{r}
 df<-read.csv("NewCoders.csv",stringsAsFactors = FALSE)
 ```
 
@@ -63,33 +62,16 @@ ggplot(filtered,aes(x= filtered$JOBROLEINTEREST, y = filtered$count, fill=filter
 ##**Dynamic Visualization**
 ####**Bar Graph**
 ```{r, echo = FALSE}
-shinyUI(fluidPage(
-        sliderInput("age", "Age of New Coder: ", min = 15, max = 60, value = 25),
-        mainPanel(
-          tabsetPanel(
-            tabPanel("Bar Graph", plotOutput("plot")), 
-            tabPanel("Summary", verbatimTextOutput("summary"))
-))))
+sliderInput("age", "Age of New Coder: ", min = 15, max = 60, value = 25)
 
-df<-read.csv("NewCoders.csv",stringsAsFactors = FALSE)
-server <- shinyServer(function(input, output){
-  output$plot<-renderPlot({
-    filtered <-df %>%
-      dplyr::select(AGE,JOBROLEINTEREST) %>%
-      dplyr::filter(AGE==input$age, JOBROLEINTEREST != "null")%>%
-      dplyr::group_by(AGE,JOBROLEINTEREST)%>%
-      dplyr::summarize(count = n())%>%dplyr::arrange(desc(count))
-    ggplot(filtered,aes(x= filtered$JOBROLEINTEREST, y = filtered$count, fill=filtered$JOBROLEINTEREST))  + geom_bar(stat="identity")+ theme(axis.text.x = element_text(angle = 90, hjust = 1),legend.position="none")+ylim(0,150) + labs(x = "JOB INTEREST", y = "COUNT")})
-  
-  output$summary<-renderPrint({
-    filtered <-df %>%
-      dplyr::select(AGE,JOBROLEINTEREST) %>%
-      dplyr::filter(AGE!="null", JOBROLEINTEREST != "null")%>%
-      dplyr::group_by(AGE, JOBROLEINTEREST) %>%
-      dplyr::summarize(count = n())%>%dplyr::arrange(desc(count))
-    summary(filtered)
-  })
-})
+renderPlot({
+  filtered <-df %>%
+        dplyr::select(AGE,JOBROLEINTEREST) %>%
+        dplyr::filter(AGE==input$age, JOBROLEINTEREST != "null")%>%
+        dplyr::group_by(AGE,JOBROLEINTEREST)%>%
+        dplyr::summarize(count = n())%>%dplyr::arrange(desc(count))
+      ggplot(filtered,aes(x= filtered$JOBROLEINTEREST, y = filtered$count, fill=filtered$JOBROLEINTEREST))  + geom_bar(stat="identity")+ theme(axis.text.x = element_text(angle = 90, hjust = 1)) +theme(legend.position="none")+ylim(0,150)})
+
 ```
 
 ####**Interpretation of Bar Graph**
