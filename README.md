@@ -53,7 +53,7 @@ ggplot(filtered,aes(x= filtered$JOBROLEINTEREST, y = filtered$count, fill=filter
 
 ```
 ####**Bar Graph**
-![](shiny_bargraph.R.png)
+![](shiny_bargraph.png)
 ```{r, echo = FALSE}
 
 
