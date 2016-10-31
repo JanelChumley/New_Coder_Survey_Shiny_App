@@ -1,4 +1,3 @@
-##"New Coder Surver: Job Role Preference Versus Age"
 [New Coder Dataset](https://www.kaggle.com/freecodecamp/2016-new-coder-survey-)
 
 ##**Creating the Shiny Application**
@@ -10,24 +9,25 @@ require("tidyr")
 require("ggplot2")
 require("ggthemes")
 library("shiny")
+library("shinydashboard")
 ```
 
 ###**Building the User Interface**
 ```{r, eval=FALSE}
 shinyUI(fluidPage(
+tabItem(tabName = "plot",
         sliderInput("age", "Age of New Coder: ", min = 15, max = 60, value = 25),
         mainPanel(
           tabsetPanel(
-            tabPanel("Bar Graph", plotOutput("plot")), 
+            tabPanel("Dot Plot", plotOutput("plot")), 
             tabPanel("Summary", verbatimTextOutput("summary"))
-))))
-
+          )))))
 ```
 
 
 ###**Building the Server Logic**
 **Step 1** Import the csv file: 
-```{r, eval=FALSE}
+```{r}
 df<-read.csv("NewCoders.csv",stringsAsFactors = FALSE)
 ```
 
@@ -52,12 +52,10 @@ filtered <-df %>%
 ggplot(filtered,aes(x= filtered$JOBROLEINTEREST, y = filtered$count, fill=filtered$JOBROLEINTEREST))  + geom_bar(stat="identity")+ theme(axis.text.x = element_text(angle = 90, hjust = 1)) +theme(legend.position="none")+ylim(0,150)
 
 ```
+
 ####**Bar Graph**
 ![](shiny_bargraph.png)
-```{r, echo = FALSE}
-
-
-df<-read.csv("NewCoders.csv",stringsAsFactors = FALSE)
+```{r, echo = FALSE, eval=FALSE}
 sliderInput("age", "Age of New Coder: ", min = 15, max = 60, value = 25)
 
 renderPlot({
@@ -67,6 +65,7 @@ renderPlot({
         dplyr::group_by(AGE,JOBROLEINTEREST)%>%
         dplyr::summarize(count = n())%>%dplyr::arrange(desc(count))
       ggplot(filtered,aes(x= filtered$JOBROLEINTEREST, y = filtered$count, fill=filtered$JOBROLEINTEREST))  + geom_bar(stat="identity")+ theme(axis.text.x = element_text(angle = 90, hjust = 1)) +theme(legend.position="none")+ylim(0,150)})
+
 ```
 
 ####**Interpretation of Bar Graph**
