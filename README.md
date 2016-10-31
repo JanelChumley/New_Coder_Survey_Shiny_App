@@ -57,7 +57,7 @@ package:
 
 #### **Bar Graph**
 
-![](shiny_bargraph.png)
+![](Shiny_bargraph.png)
 
 #### **Interpretation of Bar Graph**
 
