@@ -55,8 +55,6 @@ package:
 
     ggplot(filtered,aes(x= filtered$JOBROLEINTEREST, y = filtered$count, fill=filtered$JOBROLEINTEREST))  + geom_bar(stat="identity")+ theme(axis.text.x = element_text(angle = 90, hjust = 1)) +theme(legend.position="none")+ylim(0,150)
 
-#### **Bar Graph**
-
 ![](Shiny_bargraph.png)
 
 #### **Interpretation of Bar Graph**
