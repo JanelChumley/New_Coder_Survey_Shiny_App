@@ -52,9 +52,8 @@ filtered <-df %>%
 ggplot(filtered,aes(x= filtered$JOBROLEINTEREST, y = filtered$count, fill=filtered$JOBROLEINTEREST))  + geom_bar(stat="identity")+ theme(axis.text.x = element_text(angle = 90, hjust = 1)) +theme(legend.position="none")+ylim(0,150)
 
 ```
-
-##**Dynamic Visualization**
 ####**Bar Graph**
+![](shiny_bargraph.png)
 ```{r, echo = FALSE}
 
 
@@ -69,6 +68,6 @@ renderPlot({
         dplyr::summarize(count = n())%>%dplyr::arrange(desc(count))
       ggplot(filtered,aes(x= filtered$JOBROLEINTEREST, y = filtered$count, fill=filtered$JOBROLEINTEREST))  + geom_bar(stat="identity")+ theme(axis.text.x = element_text(angle = 90, hjust = 1)) +theme(legend.position="none")+ylim(0,150)})
 ```
-![](shiny_bargraph.png)
+
 ####**Interpretation of Bar Graph**
 Here we have Age as input in the slider bar. Notice that as Age increases, the job role preferences change significantly. In particular, a majority of the new coders in the 18 to 35 years age range prefer to become Full-Stack Web Developers or Front-End Web Developers. Beyond the age of the 35 the sample size decreases and the Job Role Interests becomes more evenly distributed.
